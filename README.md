@@ -2,10 +2,12 @@ ToDoList
 ===
 my todo list
 ---
-1. 安装node
-2. 安装 npm install -g bower
-3. npm init
-4. bower init
-5. npm install gulp gulp-jshint gulp-sass gulp-concat gulp-uglify gulp-rename gulp-connect --save-dev
-6. manual create gulpfile.js
-7. bower install angular-bootstrap --save
+1. install node
+2. npm install -g bower
+3. npm install -g gulp
+4. npm init
+5. bower init
+6. npm link gulp
+7. npm install gulp-jshint gulp-sass gulp-concat gulp-uglify gulp-rename gulp-connect --save-dev
+8. manual create gulpfile.js
+9. bower install angular-bootstrap --save
