@@ -1,0 +1,23 @@
+{
+  "name": "todolist",
+  "version": "1.0.0",
+  "description": "to do list",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jiangxianfu/todolist.git"
+  },
+  "author": "jiangxianfu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jiangxianfu/todolist/issues"
+  },
+  "homepage": "https://github.com/jiangxianfu/todolist",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.5.2",
+    "gulp-connect": "^2.2.0",
+    "gulp-jshint": "^1.11.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.2.0"
+  }
+}
