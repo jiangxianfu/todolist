@@ -1,67 +1,91 @@
 // 引入 gulp
-var gulp = require('gulp');
+var gulp = require("gulp");
 
 // 引入组件
-var jshint = require('gulp-jshint');
-var sass = require('gulp-sass');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
-var rename = require('gulp-rename');
-var connect = require('gulp-connect');
+var jshint = require("gulp-jshint");
+var sass = require("gulp-sass");
+var concat = require("gulp-concat");
+var uglify = require("gulp-uglify");
+var rename = require("gulp-rename");
+var connect = require("gulp-connect");
+
+// 将bower的库文件对应到指定位置
+gulp.task("bower_components", function() {
+    // js
+    gulp.src("./bower_components/angular/angular.js")
+        .pipe(gulp.dest("./app/js/"));
+    gulp.src("./bower_components/angular/angular.min.js")
+        .pipe(gulp.dest("./app/js/"));
+    gulp.src("./bower_components/angular/angular.min.js.map")
+        .pipe(gulp.dest("./app/js/"));
+
+    gulp.src("./bower_components/angular-route/angular-route.min.js")
+        .pipe(gulp.dest("./app/js/"));
+    gulp.src("./bower_components/angular-route/angular-route.min.js.map")
+        .pipe(gulp.dest("./app/js/"));
+
+    gulp.src("./bower_components/angular-bootstrap/ui-bootstrap.min.js")
+        .pipe(gulp.dest("./app/js/"));
+    gulp.src("./bower_components/bootstrap/dist/js/bootstrap.min.js")
+        .pipe(gulp.dest("./app/js/"));
+
+
+    gulp.src("./bower_components/jquery/dist/jquery.js")
+        .pipe(gulp.dest("./app/js/"));
+    gulp.src("./bower_components/jquery/dist/jquery.min.js")
+        .pipe(gulp.dest("./app/js/"));
+    gulp.src("./bower_components/jquery/dist/jquery.min.map")
+        .pipe(gulp.dest("./app/js/"));
+    // css
+    gulp.src("./bower_components/bootstrap/dist/css/*.min.css")
+        .pipe(gulp.dest("./app/css/"));
+    // fonts
+    gulp.src("./bower_components/bootstrap/dist/fonts/*")
+        .pipe(gulp.dest("./app/fonts/"));
+});
 // 检查脚本
-//gulp.task('lint', function() {
-//    gulp.src('./js/*.js')
-//        .pipe(jshint())
-//        .pipe(jshint.reporter('default'));
-//});
-//
-//// 编译Sass
-//gulp.task('sass', function() {
-//    gulp.src('./scss/*.scss')
-//        .pipe(sass())
-//        .pipe(gulp.dest('./css'));
-//});
-//
-//// 合并，压缩文件
-//gulp.task('scripts', function() {
-//    gulp.src('./js/*.js')
-//        .pipe(concat('all.js'))
-//        .pipe(gulp.dest('./dist'))
-//        .pipe(rename('all.min.js'))
-//        .pipe(uglify())
-//        .pipe(gulp.dest('./dist'));
-//});
-//
-//// 默认任务
-//gulp.task('default', function(){
-//    //gulp.run('lint', 'sass', 'scripts');
-//
-//    // 监听文件变化
-//    gulp.watch('./js/*.js', function(){
-//        gulp.run('lint', 'sass', 'scripts');
-//    });
-//});
-//gulp.task('watch', function() {
-//  livereload.listen();
-//  gulp.watch('less/*.less', ['less']);
-//});
+gulp.task("lint", function() {
+    gulp.src("./app/js/*.js")
+        .pipe(jshint())
+        .pipe(jshint.reporter("default"));
+});
+// 编译Sass
+gulp.task("sass", function() {
+    gulp.src("./scss/*.scss")
+        .pipe(sass())
+        .pipe(gulp.dest("./app/css/"));
+});
 
+// 合并，压缩文件
+gulp.task("minjs", function() {
+    gulp.src("./scripts/*.js")
+        .pipe(concat("all.js"))
+        .pipe(rename("all.min.js"))
+        .pipe(uglify())
+        .pipe(gulp.dest("./app/js/"));
+});
 gulp.task('html', function() {
-  gulp.src('./app/*.html')
-    .pipe(connect.reload());
+    gulp.src('./app/*.html')
+        .pipe(connect.reload());
+    gulp.src('./app/views/*.html')
+        .pipe(connect.reload());
 });
-//创建watch任务去检测html文件,其定义了当html改动之后，去调用一个Gulp的Task
-gulp.task('watch', function() {
-  gulp.watch(['./app/*.html'], ['html']);
-});
+// 默认任务
+gulp.task("default", function() {
 
-//使用connect启动一个Web服务器
-gulp.task('connect', function() {
-  connect.server({
-    root: 'app',
-    livereload: true
-  });
+    //初始化
+    gulp.run("bower_components");
+    //使用connect启动一个Web服务器
+    connect.server({
+        root: "app",
+        livereload: true
+    });
+    // 监听文件变化
+    gulp.watch("./scripts/*.js", function() {
+        gulp.run("minjs");
+    });
+    gulp.watch("./scss/*.scss", function() {
+        gulp.run("sass");
+    });
+    gulp.watch(["./app/*.html", "./app/views/*.html"], ["html"]);
 });
-
-//运行Gulp时，默认的Task
-gulp.task('default', ['connect', 'watch']);
