@@ -10,34 +10,22 @@ var rename = require("gulp-rename");
 var connect = require("gulp-connect");
 
 // 将bower的库文件对应到指定位置
-gulp.task("bower_components", function() {
+gulp.task("full_bower_components", function() {
     // js
     gulp.src("./bower_components/angular/angular.js")
         .pipe(gulp.dest("./app/js/"));
-    gulp.src("./bower_components/angular/angular.min.js")
+    
+    gulp.src("./bower_components/angular-route/angular-route.js")
         .pipe(gulp.dest("./app/js/"));
-    gulp.src("./bower_components/angular/angular.min.js.map")
+ 
+    gulp.src("./bower_components/angular-bootstrap/ui-bootstrap.js")
         .pipe(gulp.dest("./app/js/"));
-
-    gulp.src("./bower_components/angular-route/angular-route.min.js")
-        .pipe(gulp.dest("./app/js/"));
-    gulp.src("./bower_components/angular-route/angular-route.min.js.map")
-        .pipe(gulp.dest("./app/js/"));
-
-    gulp.src("./bower_components/angular-bootstrap/ui-bootstrap.min.js")
-        .pipe(gulp.dest("./app/js/"));
-    gulp.src("./bower_components/bootstrap/dist/js/bootstrap.min.js")
-        .pipe(gulp.dest("./app/js/"));
-
+ 
 
     gulp.src("./bower_components/jquery/dist/jquery.js")
-        .pipe(gulp.dest("./app/js/"));
-    gulp.src("./bower_components/jquery/dist/jquery.min.js")
-        .pipe(gulp.dest("./app/js/"));
-    gulp.src("./bower_components/jquery/dist/jquery.min.map")
-        .pipe(gulp.dest("./app/js/"));
+        .pipe(gulp.dest("./app/js/"));  
     // css
-    gulp.src("./bower_components/bootstrap/dist/css/*.min.css")
+    gulp.src("./bower_components/bootstrap/dist/css/*.css")
         .pipe(gulp.dest("./app/css/"));
     // fonts
     gulp.src("./bower_components/bootstrap/dist/fonts/*")
@@ -64,6 +52,12 @@ gulp.task("minjs", function() {
         .pipe(uglify())
         .pipe(gulp.dest("./app/js/"));
 });
+gulp.task("fulljs", function() {
+    gulp.src("./scripts/*.js")
+        .pipe(gulp.dest("./app/js/"));
+});
+
+
 gulp.task('html', function() {
     gulp.src('./app/*.html')
         .pipe(connect.reload());
@@ -74,7 +68,7 @@ gulp.task('html', function() {
 gulp.task("default", function() {
 
     //初始化
-    gulp.run("bower_components");
+    gulp.run("full_bower_components");
     //使用connect启动一个Web服务器
     connect.server({
         root: "app",
@@ -82,7 +76,8 @@ gulp.task("default", function() {
     });
     // 监听文件变化
     gulp.watch("./scripts/*.js", function() {
-        gulp.run("minjs");
+        //gulp.run("minjs");
+        gulp.run("fulljs");
     });
     gulp.watch("./scss/*.scss", function() {
         gulp.run("sass");
