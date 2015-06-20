@@ -15,7 +15,7 @@ gulp.task("full_bower_components", function() {
     gulp.src("./bower_components/angular/angular.js")
         .pipe(gulp.dest("./app/js/"));
     
-    gulp.src("./bower_components/angular-route/angular-route.js")
+    gulp.src("./bower_components/ui-router/release/angular-ui-router.js")
         .pipe(gulp.dest("./app/js/"));
  
     gulp.src("./bower_components/angular-bootstrap/ui-bootstrap.js")

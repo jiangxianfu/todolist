@@ -3,18 +3,20 @@
 
 // Declare app level module which depends on filters, and services
 
-angular.module('mainApp', ['ngRoute', 'mainApp.filters', 'mainApp.services', 'mainApp.directives', 'mainApp.controllers'])
-	.config(['$routeProvider', function($routeProvider) {
-		$routeProvider.when('/view1', {
+var app = angular.module('mainApp', ['ui.router']);
+
+app.config(function($stateProvider, $urlRouterProvider) {
+	$stateProvider
+		.state('view1', {
+			url: '/view1',
 			templateUrl: 'views/view1.html',
 			controller: 'MyCtrl1'
-
-		});
-		$routeProvider.when('/view2', {
+		})
+		.state('view2', {
+			url: '/view2',
 			templateUrl: 'views/view2.html',
 			controller: 'MyCtrl2'
 		});
-		$routeProvider.otherwise({
-			redirectTo: '/view1'
-		});
-	}]);
+		
+	$urlRouterProvider.otherwise("/view1");
+});
