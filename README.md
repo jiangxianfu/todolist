@@ -11,4 +11,3 @@ my todo list
 7. npm install gulp-jshint gulp-sass gulp-concat gulp-uglify gulp-rename gulp-connect --save-dev
 8. manual create gulpfile.js
 9. bower install angular-bootstrap --save
----
